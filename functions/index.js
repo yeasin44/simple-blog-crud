@@ -72,21 +72,15 @@ Blog.post("/add-blog", [parseUrl, parseJson], async (req, res) => {
 
 // Edit a blog
 Blog.post("/edit-blog", [parseUrl, parseJson], async (req, res) => {
-  // const blogId = req.body.id;
-  // console.log("blog id", blogId);
-  // const updatedBlog = {
-  //   name: req.body.name,
-  //   quote: req.body.quote,
-  //   // updatedAt: new Date(),
-  // };
-  console.log(updatedBlog);
   try {
     const blogId = req.body.id;
+    console.log(blogId);
     const updatedBlog = {
-      name: req.body.name,
+      author: req.body.author,
       quote: req.body.quote,
       updatedAt: new Date(),
     };
+    console.log(updatedBlog);
     await db.collection("blogs").doc(blogId).update(updatedBlog);
     return res.status(200).json("Blog Updated");
   } catch (error) {

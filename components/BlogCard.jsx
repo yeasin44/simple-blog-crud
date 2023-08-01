@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import EditBlog from "./modals/EditBlog";
+import axios from "axios";
 
 const BlogCard = (blog) => {
   const [showModal, setShowModal] = useState(false);
@@ -10,6 +11,24 @@ const BlogCard = (blog) => {
 
   const handleModal = () => {
     setShowModal(false);
+  };
+
+  const deleteBlog = async (deleteId) => {
+    // setIsLoading(true);
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5001/simple-blog-crud/us-central1/Blog/delete-blog",
+        { id: deleteId }
+      );
+      console.log("Response:", response.data);
+      // handleClose();
+      // setIsLoading(false);
+      // router.push("/manage-pos");
+    } catch (error) {
+      console.error("Error deleting POS:", error);
+    } finally {
+    }
+    // handleClose();
   };
 
   return (
@@ -22,7 +41,10 @@ const BlogCard = (blog) => {
           </button>
         </Link>
         <EditBlog onClose={handleModal} visible={showModal} blog={blog} />
-        <button className="border h-8 w-20 rounded hover:bg-red-600 hover:text-white hover:font-bold">
+        <button
+          onClick={() => deleteBlog(id)}
+          className="border h-8 w-20 rounded hover:bg-red-600 hover:text-white hover:font-bold"
+        >
           Delete
         </button>
       </div>

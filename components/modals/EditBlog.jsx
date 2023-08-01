@@ -12,18 +12,18 @@ const EditBlog = ({ onClose, visible, blog }) => {
     // const name = e.target.name.value;
     // const quote = e.target.quote.value;
     // console.log("id", id, name, quote);
-    const data = {
-      name: e.target.name.value,
-      quote: e.target.quote.value,
-      id: id,
-    };
-    console.log(data);
+    // const data = {
+    //   author: e.target.author.value,
+    //   quote: e.target.quote.value,
+    //   id: id,
+    // };
+    // console.log(data);
 
     // setIsLoading(true);
     try {
       const response = await axios.post(
-        `http://127.0.0.1:5001/simple-blog-crud/us-central1/Blog/edit-blog`,
-        { data }
+        "http://127.0.0.1:5001/simple-blog-crud/us-central1/Blog/edit-blog",
+        { author: e.target.author.value, quote: e.target.quote.value, id: id }
       );
 
       // setIsLoading(false);
@@ -53,12 +53,9 @@ const EditBlog = ({ onClose, visible, blog }) => {
                 Name of the Author
               </label>
               <input
-                // defaultValue={productData.quote}
-
-                name="name"
+                name="author"
                 type="text"
                 className="mt-1 w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                // placeholder="Enter author name"
                 defaultValue={author}
               />
             </div>
@@ -75,7 +72,6 @@ const EditBlog = ({ onClose, visible, blog }) => {
             </div>
             <div className="text-center">
               <button
-                // onClick={handleProductSubmit}
                 type="submit"
                 className="bg-primary bg-sky-700 hover:bg-sky-900 text-white font-bold px-6 py-2 rounded-md mt-4"
               >
