@@ -3,39 +3,6 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const AddBlogs = () => {
-  const router = useRouter();
-  const [productData, setProductData] = useState({
-    quote: "",
-    author: "",
-  });
-
-  const handleProductSubmit = (e) => {
-    e.preventDefault();
-    // setLoading(true);
-    axios
-      .post(
-        "http://127.0.0.1:5001/simple-blog-crud/us-central1/Blog/add-blog",
-        {
-          quote: productData.quote,
-          author: productData.author,
-        }
-      )
-      .then((res) => {
-        // toast.success("Product added successfully");
-        // setSelectedOption("");
-        setProductData({
-          quote: "",
-          author: "",
-        });
-        // setLoading(false);
-        router.push("/blogs");
-      })
-      .catch((err) => {
-        // setLoading(false);
-        // toast.error("Failed to upload this product");
-        console.error(err);
-      });
-  };
   return (
     <div>
       Add blogs

@@ -6,6 +6,8 @@ import Link from "next/link";
 import BlogCard from "@/components/BlogCard";
 import BlogMenu from "../blog-menu";
 import AddBlogModal from "@/components/modals/AddBlogModal";
+// import styles from "../../styles/globals.css";
+import styles from "../../styles/neon-border.module.css";
 
 const Blogs = () => {
   const router = useRouter();
@@ -45,11 +47,22 @@ const Blogs = () => {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="border w-[20%] h-24 cursor-pointer hover:bg-slate-900 hover:text-white hover:font-bold rounded p-4"
+          className="p-6 w-[20%] h-24 rounded-lg hover:bg-slate-900 hover:text-white text-black text-center text-xl hover:font-bold font-semibold border ease-in duration-300"
         >
           Add Blog
         </button>
+        {/* <button
+          onClick={() => setShowModal(true)}
+          className={`neon-border p-6 w-[20%] h-24 rounded-lg hover:bg-slate-900 hover:text-white text-black text-center text-xl hover:font-bold font-semibold ${styles["neon-border"]}`}
+        >
+          Add Blog
+        </button> */}
       </div>
+      {/* <div className="flex justify-center items-center min-h-screen">
+        <div className="border w-[20%] h-24 cursor-pointer hover:bg-slate-900 hover:text-white hover:font-bold rounded p-4">
+          Neon Border Effect
+        </div>
+      </div> */}
       <AddBlogModal onClose={handleModal} visible={showModal} />
     </div>
   );

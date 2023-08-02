@@ -3,9 +3,13 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import EditBlog from "./modals/EditBlog";
 import axios from "axios";
+import Loader from "./icons/Loader";
+import ButtonLoader from "./icons/ButtonLoader";
 
 const BlogCard = (blog) => {
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
   const { id, quote, author } = blog.blog;
   const router = useRouter();
 
@@ -14,21 +18,19 @@ const BlogCard = (blog) => {
   };
 
   const deleteBlog = async (deleteId) => {
-    // setIsLoading(true);
+    setLoading(true);
     try {
       const response = await axios.post(
         "http://127.0.0.1:5001/simple-blog-crud/us-central1/Blog/delete-blog",
         { id: deleteId }
       );
       console.log("Response:", response.data);
-      // handleClose();
-      // setIsLoading(false);
-      // router.push("/manage-pos");
+      setLoading(false);
+      router.push("/");
     } catch (error) {
-      console.error("Error deleting POS:", error);
+      console.error("Error deleting Blog:", error);
     } finally {
     }
-    // handleClose();
   };
 
   return (
@@ -45,7 +47,13 @@ const BlogCard = (blog) => {
           onClick={() => deleteBlog(id)}
           className="border h-8 w-20 rounded hover:bg-red-600 hover:text-white hover:font-bold"
         >
-          Delete
+          {isLoading ? (
+            <span className="flex justify-center animate-spin">
+              <ButtonLoader />
+            </span>
+          ) : (
+            "Delete"
+          )}
         </button>
       </div>
     </div>

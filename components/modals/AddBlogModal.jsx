@@ -1,47 +1,54 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import ButtonLoader from "../icons/ButtonLoader";
+import { toast } from "react-hot-toast";
+import Cross from "../icons/Cross";
 
 const AddBlogModal = ({ onClose, visible }) => {
   const router = useRouter();
+  const [isLoading, setLoading] = useState(false);
   const [productData, setProductData] = useState({
     quote: "",
     author: "",
   });
-  if (!visible) return null;
-  const handleProductSubmit = (e) => {
+
+  const handleBlogSubmit = async (e) => {
     e.preventDefault();
-    // setLoading(true);
-    axios
-      .post(
+    setLoading(true);
+    const getProductData = {
+      quote: productData.quote,
+      author: productData.author,
+    };
+    console.log(getProductData);
+
+    try {
+      const response = await axios.post(
         "http://127.0.0.1:5001/simple-blog-crud/us-central1/Blog/add-blog",
-        {
-          quote: productData.quote,
-          author: productData.author,
-        }
-      )
-      .then((res) => {
-        // toast.success("Product added successfully");
-        // setSelectedOption("");
-        setProductData({
-          quote: "",
-          author: "",
-        });
-        // setLoading(false);
-        router.push("/blogs");
-      })
-      .catch((err) => {
-        // setLoading(false);
-        // toast.error("Failed to upload this product");
-        console.error(err);
-      });
+        getProductData
+      );
+      toast.success("Blog Added Successfully");
+      setLoading(false);
+      router.push("/");
+      onClose();
+    } catch (error) {
+      if (error.response) {
+        setLoading(false);
+        console.error("Server error:", error.response.data);
+      } else {
+        setLoading(false);
+        console.error("Error request:", error.message);
+      }
+    }
+    onClose();
   };
+  if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75  flex items-center justify-center ">
-      <div className="bg-white p-2 rounded w-[800px] h-[300px] relative m-4">
-        <div className="w-6 h-6 border text-center flex items-center justify-center rounded-full">
-          <button onClick={onClose} className="text-xl ">
-            x
+      <div className="bg-white p-2 rounded w-[800px] h-auto relative m-4">
+        <div className="w-8 h-8 border text-center flex items-center justify-center rounded-full">
+          <button onClick={onClose} className="">
+            <Cross />
           </button>
         </div>
         <div className="mx-12 mt-6">
@@ -81,11 +88,17 @@ const AddBlogModal = ({ onClose, visible }) => {
           </div>
           <div className="text-center">
             <button
-              onClick={handleProductSubmit}
+              onClick={handleBlogSubmit}
               type="submit"
-              className="bg-primary bg-sky-700 hover:bg-sky-900 text-white font-bold px-6 py-2 rounded-md mt-4"
+              className="bg-primary bg-sky-700 hover:bg-sky-900 text-white font-bold px-6 py-2 rounded-md mt-4 mb-8"
             >
-              Post blog
+              {isLoading ? (
+                <span className="flex justify-center animate-spin">
+                  <ButtonLoader />
+                </span>
+              ) : (
+                "Post blog"
+              )}
             </button>
           </div>
         </div>

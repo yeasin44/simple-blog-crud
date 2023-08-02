@@ -23,8 +23,12 @@ const BlogId = () => {
   });
 
   return (
-    <div>
-      <p>{blog?.quote}</p>
+    <div className="container m-auto flex items-center justify-center">
+      <div className="border h-auto p-12 w-[80%] rounded text-center m-12">
+        <h1 className="font-bold text-2xl m-2">{blog.author}</h1>
+        <hr />
+        <p className="m-2 mt-6">{blog?.quote}</p>
+      </div>
     </div>
   );
 };
